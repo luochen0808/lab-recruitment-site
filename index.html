@@ -1,58 +1,885 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>科研团队招聘官网</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>武汉大学集成电路学院 | 脑机接口研究实验室</title>
+  <meta name="description" content="武汉大学集成电路学院脑机接口实验室，聚焦脑机接口、神经工程、数字孪生、AI芯片、微纳器件与生物材料交叉研究，面向海内外招聘博士研究生、博士后与科研助理。" />
+  <style>
+    :root {
+      --bg: #070b16;
+      --bg-2: #0b1020;
+      --card: rgba(255,255,255,0.075);
+      --card-2: rgba(255,255,255,0.11);
+      --line: rgba(255,255,255,0.13);
+      --text: #f7f9ff;
+      --muted: #aab3cd;
+      --muted-2: #7f8aa8;
+      --red: #d82c38;
+      --red-2: #ff4a59;
+      --blue: #63d7ff;
+      --violet: #8977ff;
+      --gold: #ffd28a;
+      --shadow: 0 30px 80px rgba(0,0,0,0.35);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --max: 1220px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 20%, rgba(216,44,56,0.24), transparent 30%),
+        radial-gradient(circle at 86% 18%, rgba(99,215,255,0.18), transparent 30%),
+        radial-gradient(circle at 56% 86%, rgba(137,119,255,0.20), transparent 36%),
+        linear-gradient(180deg, #080d1c 0%, #060914 48%, #080c18 100%);
+      z-index: -3;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95), rgba(0,0,0,0.2));
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      z-index: -1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7,11,22,0.70);
+      backdrop-filter: blur(18px);
+    }
+    .nav-container {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+      height: 76px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 28px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 260px;
+    }
+    .logo img {
+      width: 142px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+    }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .logo-text strong { font-size: 16px; letter-spacing: 0.02em; }
+    .logo-text span { color: var(--muted); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-menu a {
+      position: relative;
+      color: rgba(255,255,255,0.78);
+      font-size: 14px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      transition: 0.25s ease;
+    }
+    .nav-menu a:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+    .nav-cta {
+      background: rgba(216,44,56,0.18) !important;
+      color: #fff !important;
+      border: 1px solid rgba(216,44,56,0.4);
+    }
+
+    .section {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 132px 0 72px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(330px, 0.92fr);
+      align-items: center;
+      gap: 56px;
+      position: relative;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      right: -12%;
+      top: 14%;
+      width: 530px;
+      height: 530px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,215,255,0.20), transparent 68%);
+      filter: blur(4px);
+      z-index: -1;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      color: #d9e0f6;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      margin-bottom: 26px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.20);
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--red-2);
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px rgba(216,44,56,0.12);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.72); opacity: 0.45; }
+    }
+    .hero-title {
+      max-width: 850px;
+      font-size: clamp(44px, 7vw, 92px);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      font-weight: 760;
+      margin-bottom: 28px;
+    }
+    .hero-title .gradient {
+      background: linear-gradient(100deg, #fff 0%, #b9dfff 44%, #ff8b94 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-title em {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      color: rgba(255,255,255,0.82);
+    }
+    .hero-desc {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 34px;
+    }
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+      padding: 13px 24px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-size: 15px;
+      font-weight: 650;
+      transition: transform .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-red {
+      background: linear-gradient(135deg, var(--red), var(--red-2));
+      color: #fff;
+      box-shadow: 0 18px 40px rgba(216,44,56,0.30);
+    }
+    .btn-red:hover { box-shadow: 0 24px 54px rgba(216,44,56,0.40); }
+    .btn-border {
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.16);
+    }
+    .btn-border:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.30); }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 660px;
+    }
+    .stat {
+      padding: 18px 18px;
+      border: 1px solid rgba(255,255,255,0.11);
+      background: rgba(255,255,255,0.045);
+      border-radius: var(--radius-md);
+    }
+    .stat strong { display: block; font-size: 22px; color: #fff; line-height: 1.1; }
+    .stat span { color: var(--muted-2); font-size: 13px; }
+
+    .hero-panel {
+      position: relative;
+      min-height: 560px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.055)),
+        radial-gradient(circle at 20% 15%, rgba(216,44,56,0.28), transparent 34%),
+        radial-gradient(circle at 78% 18%, rgba(99,215,255,0.22), transparent 35%);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      padding: 28px;
+      backdrop-filter: blur(18px);
+    }
+    .brain-orbit {
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50%;
+      transform: rotate(-12deg);
+    }
+    .brain-orbit:nth-child(2) { inset: 78px 36px; transform: rotate(23deg); opacity: 0.55; }
+    .brain-orbit:nth-child(3) { inset: 126px 70px; transform: rotate(66deg); opacity: 0.35; }
+    .neuro-card {
+      position: absolute;
+      inset: auto 28px 28px 28px;
+      padding: 26px;
+      border-radius: 22px;
+      background: rgba(5,9,20,0.68);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(18px);
+    }
+    .panel-chip {
+      position: absolute;
+      top: 34px;
+      left: 34px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      color: #eaf3ff;
+      font-size: 13px;
+    }
+    .signal {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      top: 46%;
+      height: 84px;
+      opacity: 0.8;
+    }
+    .signal svg { width: 100%; height: 100%; overflow: visible; }
+    .neuro-card h3 {
+      color: var(--red-2);
+      font-size: 14px;
+      letter-spacing: 0.16em;
+      margin-bottom: 14px;
+    }
+    .job-list { display: grid; gap: 12px; margin-bottom: 22px; }
+    .job-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.09);
+    }
+    .job-item b { font-size: 17px; }
+    .job-item span { color: var(--muted); font-size: 13px; }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;   /* 整体水平居中 */
+      align-items: center;
+      gap: 10px;
+    }
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #dce7ff;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      font-size: 13px;
+    }
+
+    .section-pad { padding: 92px 0; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 28px;
+      margin-bottom: 34px;
+    }
+    .section-kicker {
+      color: var(--red-2);
+      letter-spacing: 0.16em;
+      font-size: 13px;
+      font-weight: 750;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+    .section-desc {
+      color: var(--muted);
+      max-width: 500px;
+      font-size: 15px;
+    }
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .research-card {
+      min-height: 260px;
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,0.095), rgba(255,255,255,0.045));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .research-card::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      right: -60px;
+      top: -60px;
+      background: radial-gradient(circle, rgba(99,215,255,0.22), transparent 70%);
+      transition: .25s ease;
+    }
+    .research-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.25);
+      background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055));
+    }
+    .research-card:hover::after { transform: scale(1.2); }
+    .icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: rgba(216,44,56,0.16);
+      border: 1px solid rgba(216,44,56,0.28);
+      margin-bottom: 20px;
+      font-size: 23px;
+    }
+    .research-card h3 { font-size: 21px; margin-bottom: 10px; }
+    .research-card p { color: var(--muted); font-size: 14px; }
+
+    .platform {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+    .platform-left, .platform-right {
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.12);
+      overflow: hidden;
+    }
+    .platform-left { padding: 34px; }
+    .platform-left h2 { font-size: clamp(28px, 3vw, 42px); line-height: 1.15; letter-spacing: -0.04em; margin-bottom: 18px; }
+    .platform-left p { color: var(--muted); margin-bottom: 24px; }
+    .feature-list { display: grid; gap: 12px; }
+    .feature {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .feature i {
+      flex: 0 0 26px;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #07101f;
+      background: linear-gradient(135deg, var(--blue), #fff);
+      font-style: normal;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .feature b { display: block; margin-bottom: 2px; }
+    .feature span { color: var(--muted); font-size: 14px; }
+    .platform-right {
+      padding: 28px;
+      position: relative;
+      min-height: 420px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(216,44,56,0.20), transparent 38%),
+        radial-gradient(circle at 78% 62%, rgba(99,215,255,0.20), transparent 38%),
+        rgba(255,255,255,0.065);
+    }
+    .timeline { display: grid; gap: 16px; position: relative; z-index: 2; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 16px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(6,10,22,0.56);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+    }
+    .timeline-item .step {
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+    }
+    .timeline-item h3 { font-size: 18px; margin-bottom: 4px; }
+    .timeline-item p { color: var(--muted); font-size: 14px; }
+
+    .apply-section {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 24px;
+      padding: 34px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(255,255,255,0.095), rgba(255,255,255,0.045));
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: var(--shadow);
+      margin-bottom: 82px;
+    }
+    .apply-info {
+      padding: 16px 10px;
+    }
+    .apply-info h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+    }
+    .apply-info p { color: var(--muted); margin-bottom: 22px; }
+    .contact-card {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .contact-card strong { color: #fff; }
+
+    form {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(6,10,22,0.54);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-group { margin-bottom: 14px; }
+    label {
+      display: block;
+      color: rgba(255,255,255,0.72);
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 14px;
+      color: #fff;
+      background: rgba(255,255,255,0.075);
+      border: 1px solid rgba(255,255,255,0.13);
+      outline: none;
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.36); }
+    select { color: rgba(255,255,255,0.82); }
+    select option { color: #111; }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(99,215,255,0.55);
+      box-shadow: 0 0 0 4px rgba(99,215,255,0.10);
+      background: rgba(255,255,255,0.10);
+    }
+    textarea { resize: vertical; min-height: 130px; }
+    .submit-btn {
+      width: 100%;
+      margin-top: 4px;
+      min-height: 52px;
+      border: 0;
+      border-radius: 16px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: 760;
+      background: linear-gradient(135deg, var(--red), var(--red-2));
+      box-shadow: 0 18px 42px rgba(216,44,56,0.28);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 24px 54px rgba(216,44,56,0.40); }
+    .form-note { color: var(--muted-2); font-size: 12px; margin-top: 12px; text-align: center; }
+
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: rgba(5,8,16,0.72);
+      padding: 36px 0;
+    }
+    .footer-inner {
+      width: min(92%, var(--max));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      color: var(--muted-2);
+      font-size: 14px;
+    }
+    .footer-inner strong { color: #fff; }
+
+    .mobile-toggle { display: none; }
+
+    @media (max-width: 980px) {
+      .nav-container { height: 68px; }
+      .logo-text { display: none; }
+      .hero, .platform, .apply-section { grid-template-columns: 1fr; }
+      .hero { padding-top: 118px; gap: 34px; }
+      .hero-panel { min-height: 520px; }
+      .research-grid { grid-template-columns: 1fr 1fr; }
+      .section-head { align-items: start; flex-direction: column; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-menu {
+        position: fixed;
+        top: 68px;
+        left: 4%;
+        right: 4%;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(7,11,22,0.94);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: var(--shadow);
+      }
+      .nav-menu.active { display: flex; }
+      .nav-menu a { padding: 12px 14px; }
+      .mobile-toggle {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.14);
+        color: #fff;
+        background: rgba(255,255,255,0.06);
+        cursor: pointer;
+      }
+      .logo img { width: 126px; }
+      .hero-stats, .research-grid, .form-row { grid-template-columns: 1fr; }
+      .hero-panel { min-height: 480px; padding: 20px; }
+      .neuro-card { inset: auto 18px 18px 18px; padding: 20px; }
+      .signal { left: 18px; right: 18px; }
+      .apply-section { padding: 22px; }
+      form { padding: 18px; }
+      .timeline-item { grid-template-columns: 1fr; gap: 8px; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-  <!-- 顶部标识 -->
-  <div class="top-tag">
-    <span class="dot"></span>
-    2026 / 2027 Global Recruitment
-  </div>
+  <div class="noise" aria-hidden="true"></div>
 
-  <div class="container">
-    <!-- 左侧文字区域 -->
-    <div class="left-box">
-      <h1>
-        Decoding<br>
-        the<br>
-        <em>Future of</em><br>
-        Mind
-      </h1>
-      <p>
-        诚邀神经科学、脑机接口、硬件工程、人工智能方向优秀学者加入课题组，
-        开展前沿交叉科研工作。
-      </p>
-      <div class="btn-group">
-        <a href="#apply" class="btn btn-red">立即申请 →</a>
-        <a href="#research" class="btn btn-border">研究方向</a>
+  <header class="navbar">
+    <div class="nav-container">
+      <a class="logo" href="#home" aria-label="返回首页">
+        <img src="https://www.whu.edu.cn/images/logo.png" alt="武汉大学 Logo" />
+        <span class="logo-text">
+          <strong>武汉大学集成电路学院</strong>
+          <span>Brain-Computer Interface Lab</span>
+        </span>
+      </a>
+      <nav class="nav-menu" id="navMenu" aria-label="主导航">
+        <a href="#home">首页</a>
+        <a href="#research">研究方向</a>
+        <a href="#platform">科研平台</a>
+        <a href="#apply" class="nav-cta">人才招聘</a>
+        <a href="#contact">联系我们</a>
+      </nav>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="打开导航菜单">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section hero" id="home">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span> 武汉大学集成电路学院脑机接口研究实验室</div>
+        <h1 class="hero-title">
+          Decoding<br />
+          the <span class="gradient">Future</span><br />
+          <em>of Mind</em>
+        </h1>
+        <p class="hero-desc">
+          面向神经科学、脑机接口、微纳器件、AI芯片、生物材料与数字孪生交叉前沿，建设高密度、多模态、低损伤、可长期稳定工作的下一代神经接口研究平台。
+        </p>
+        <div class="btn-group">
+          <a href="#apply" class="btn btn-red">立即申请 <span>→</span></a>
+          <a href="#research" class="btn btn-border">了解研究方向</a>
+        </div>
+        <div class="hero-stats" aria-label="实验室方向概览">
+          <div class="stat"><strong>多模态</strong><span>电 / 化学 / 光学信号融合</span></div>
+          <div class="stat"><strong>微纳级</strong><span>柔性器件与植入式探针</span></div>
+          <div class="stat"><strong>AI闭环</strong><span>解码、建模与智能调控</span></div>
+        </div>
+      </div>
+
+      <aside class="hero-panel" aria-label="开放申请与核心方向">
+        <div class="brain-orbit"></div>
+        <div class="brain-orbit"></div>
+        <div class="brain-orbit"></div>
+        <div class="panel-chip">● Neural Interface · AI Chip · Digital Twin</div>
+        <div class="signal" aria-hidden="true">
+          <svg viewBox="0 0 600 120" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="wave" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0" stop-color="#ff4a59" />
+                <stop offset="0.5" stop-color="#63d7ff" />
+                <stop offset="1" stop-color="#ffffff" />
+              </linearGradient>
+            </defs>
+            <path d="M0,60 C45,60 45,20 75,20 C105,20 105,98 135,98 C165,98 165,38 195,38 C225,38 225,70 255,70 C285,70 285,28 315,28 C345,28 345,94 375,94 C405,94 405,52 435,52 C465,52 465,14 495,14 C525,14 525,86 555,86 C580,86 580,60 600,60" fill="none" stroke="url(#wave)" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="neuro-card">
+          <h3>OPEN POSITIONS</h3>
+          <div class="job-list">
+            <div class="job-item"><b>博士研究生</b><span>神经工程 / 微纳器件 / AI算法</span></div>
+            <div class="job-item"><b>博士后研究员</b><span>脑机接口 / 生物材料 / 芯片系统</span></div>
+            <div class="job-item"><b>科研助理 / 工程师</b><span>实验平台 / 器件加工 / 数据分析</span></div>
+          </div>
+          <div class="tag-list">
+            <span class="tag">柔性电子</span><span class="tag">AI芯片</span><span class="tag">脑电信号</span><span class="tag">多模态传感</span><span class="tag">神经解码</span><span class="tag">闭环调控</span> <span class="tag">数字孪生</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section section-pad" id="research">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Research Directions</div>
+          <h2 class="section-title">从高质量神经信号采集到智能闭环调控</h2>
+        </div>
+        <p class="section-desc">实验室聚焦“器件—信号—模型—调控”的全链条研究，推动脑机接口从单一信号采集走向多模态融合、长期稳定与临床转化。</p>
+      </div>
+      <div class="research-grid">
+        <article class="research-card">
+          <div class="icon">🧠</div>
+          <h3>多模态脑机接口</h3>
+          <p>发展电生理、神经化学、光学信号一体化采集与调控技术，构建低损伤、高密度、长期稳定的神经接口系统。</p>
+        </article>
+        <article class="research-card">
+          <div class="icon">⚙️</div>
+          <h3>微纳器件与柔性电子</h3>
+          <p>围绕柔性基底、微纳电极、植入式探针与生物兼容封装，探索高通量制造与长期可靠性评价方法。</p>
+        </article>
+        <article class="research-card">
+          <div class="icon">🤖</div>
+          <h3>AI芯片与神经解码</h3>
+          <p>面向高维神经数据，研发低功耗边缘智能芯片、脑状态解码算法与闭环反馈控制策略。</p>
+        </article>
+        <article class="research-card">
+          <div class="icon">🧬</div>
+          <h3>生物材料与组织界面</h3>
+          <p>研究神经组织—材料界面相容性、炎症反应、长期稳定性与低损伤植入机制。</p>
+        </article>
+        <article class="research-card">
+          <div class="icon">📈</div>
+          <h3>脑数字孪生与建模</h3>
+          <p>融合多源神经数据、图模型与动力学建模，建立可解释的脑功能状态预测与干预模型。</p>
+        </article>
+        <article class="research-card">
+          <div class="icon">🔬</div>
+          <h3>交叉转化研究</h3>
+          <p>面向神经疾病、麻醉脑科学、脑功能监测与精准调控，推动基础机制研究与工程系统转化。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-pad" id="platform">
+      <div class="platform">
+        <div class="platform-left">
+          <div class="section-kicker">Platform</div>
+          <h2>开放、交叉、面向转化的科研训练平台</h2>
+          <p>适合具有微纳加工、电子信息、神经科学、材料科学、医学工程、人工智能等背景的青年学者与学生加入。</p>
+          <div class="feature-list">
+            <div class="feature"><i>✓</i><div><b>跨学科联合培养</b><span>与神经科学、医学、集成电路、材料与智能制造方向深度交叉。</span></div></div>
+            <div class="feature"><i>✓</i><div><b>完整技术链条</b><span>覆盖器件设计、加工封装、动物实验、信号分析与闭环算法验证。</span></div></div>
+            <div class="feature"><i>✓</i><div><b>面向高水平成果</b><span>聚焦原创器件、机制研究、工程系统与临床前转化。</span></div></div>
+          </div>
+        </div>
+        <div class="platform-right">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="step">STEP 01</div>
+              <div><h3>器件设计与微纳制造</h3><p>柔性基底、电极阵列、微纳结构、封装与可靠性测试。</p></div>
+            </div>
+            <div class="timeline-item">
+              <div class="step">STEP 02</div>
+              <div><h3>神经信号采集与多模态融合</h3><p>电生理、生化、光学信号同步采集，建立高质量数据集。</p></div>
+            </div>
+            <div class="timeline-item">
+              <div class="step">STEP 03</div>
+              <div><h3>AI解码与数字孪生建模</h3><p>通过机器学习、图模型与动力学模型实现脑状态预测。</p></div>
+            </div>
+            <div class="timeline-item">
+              <div class="step">STEP 04</div>
+              <div><h3>闭环调控与转化验证</h3><p>以低损伤、高稳定、可解释为目标，推进神经接口系统应用。</p></div>
+            </div>
+            <div class="timeline-item">
+              <div class="step">STEP 05</div>
+              <div><h3>临床应用转化</h3><p>围绕脑疾病诊疗、麻醉监测、神经康复与精准干预等场景，推动脑机接口技术的临床应用与落地转化。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section apply-section" id="apply">
+      <div class="apply-info">
+        <div class="section-kicker">Join Us</div>
+        <h2>欢迎具有交叉背景的优秀人才加入</h2>
+        <p>请填写申请信息并附上个人简介、研究经历或代表性成果。也可直接通过邮件发送简历与研究兴趣说明。</p>
+        <div class="contact-card">
+          <p><strong>招聘方向：</strong>博士研究生、博士后研究员、科研助理、工程师</p>
+          <p><strong>优先背景：</strong>脑机接口、神经工程、生物医药、生物材料、柔性电子、集成电路、计算机科学</p>
+          <p><strong>联系邮箱：</strong>liangf@whu.edu.cn</p>
+        </div>
+      </div>
+      <form action="https://formspree.io/f/xojrvrny" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">姓名</label>
+            <input id="name" type="text" name="name" placeholder="请输入姓名" required />
+          </div>
+          <div class="form-group">
+            <label for="email">邮箱</label>
+            <input id="email" type="email" name="email" placeholder="name@example.com" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">联系电话</label>
+            <input id="phone" type="text" name="phone" placeholder="可选" />
+          </div>
+          <div class="form-group">
+            <label for="position">申请类别</label>
+            <select id="position" name="position" required>
+              <option value="">请选择申请类别</option>
+              <option value="phd">博士研究生</option>
+              <option value="postdoc">博士后研究员</option>
+              <option value="assistant">科研助理</option>
+              <option value="engineer">工程师</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="background">研究背景 / 技术方向</label>
+          <input id="background" type="text" name="background" placeholder="如：微纳加工、神经电生理、AI算法、柔性电子等" />
+        </div>
+        <div class="form-group">
+          <label for="intro">个人简介</label>
+          <textarea id="intro" name="intro" placeholder="请简要介绍教育背景、研究经历、代表性成果与申请动机"></textarea>
+        </div>
+        <button type="submit" class="submit-btn">提交申请</button>
+      </form>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-inner">
+      <div>
+        <strong>武汉大学集成电路学院 · 脑机接口研究实验室</strong><br />
+        湖北省武汉市武昌区珞珈山街八一路299号
+      </div>
+      <div>
+        邮箱：liangf@whu.edu.cn<br />
+        官网：ic.whu.edu.cn
       </div>
     </div>
+  </footer>
 
-    <!-- 右侧岗位卡片 -->
-    <div class="right-card">
-      <h3 class="card-title">申请</h3>
-      <div class="job-list">
-        <div class="job-item">博士研究生 <span>🎓</span></div>
-        <div class="job-item">博士后研究员 <span>🔬</span></div>
-        <div class="job-item">硬件研发工程师 <span>💻</span></div>
-      </div>
+  <script>
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navMenu = document.getElementById('navMenu');
 
-      <h3 class="card-title">研究领域</h3>
-      <div class="tag-list">
-        <span class="tag">脑电信号</span>
-        <span class="tag">神经解码</span>
-        <span class="tag">微纳器件</span>
-        <span class="tag">生物材料</span>
-      </div>
-    </div>
-  </div>
+    mobileToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      mobileToggle.textContent = navMenu.classList.contains('active') ? '×' : '☰';
+    });
 
-  <!-- 背景装饰 -->
-  <div class="bg-overlay"></div>
-  <script src="script.js"></script>
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        mobileToggle.textContent = '☰';
+      });
+    });
+  </script>
 </body>
 </html>
